@@ -379,19 +379,19 @@ CONFIG_SCHEMA = cv.All(
         cv.Optional(CONF_REMAINING_CAPACITY): sensor.sensor_schema(
             unit_of_measurement=UNIT_AMP_HOURS,
             accuracy_decimals=2,
-            device_class=DEVICE_CLASS_ENERGY_STORAGE,
+            # No device_class: HA's energy_storage only accepts energy units (Wh/kWh/...), not Ah
             state_class=STATE_CLASS_MEASUREMENT,
         ),
         cv.Optional(CONF_FULL_CAPACITY): sensor.sensor_schema(
             unit_of_measurement=UNIT_AMP_HOURS,
             accuracy_decimals=2,
-            device_class=DEVICE_CLASS_ENERGY_STORAGE,
+            # No device_class: HA's energy_storage only accepts energy units (Wh/kWh/...), not Ah
             state_class=STATE_CLASS_MEASUREMENT,
         ),
         cv.Optional(CONF_DESIGN_CAPACITY): sensor.sensor_schema(
             unit_of_measurement=UNIT_AMP_HOURS,
             accuracy_decimals=2,
-            device_class=DEVICE_CLASS_ENERGY_STORAGE,
+            # No device_class: HA's energy_storage only accepts energy units (Wh/kWh/...), not Ah
             state_class=STATE_CLASS_MEASUREMENT,
         ),
         cv.Optional(CONF_CYCLE_COUNT): sensor.sensor_schema(
