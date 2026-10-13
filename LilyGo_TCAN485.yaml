@@ -1,8 +1,9 @@
 esphome:
-  name: "pace_bms"
-  friendly_name: pace_bms
+  name: balans_bms
+  friendly_name: Balans BMS
   min_version: 2026.4.0
   name_add_mac_suffix: false
+  area: Garage
 
 esp32:
   variant: esp32
@@ -21,11 +22,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: !secret api_encryption_key
+    key: !secret bms_api_encryption_key
 
 ota:
   - platform: esphome
-    password: !secret ota_password
+    encryption:
 
 wifi:
   ssid: !secret wifi_ssid
