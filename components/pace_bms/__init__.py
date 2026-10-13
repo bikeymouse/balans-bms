@@ -331,10 +331,8 @@ def final_validate_slave_bms_schema(slave_config):
 FINAL_VALIDATE_SCHEMA = cv.typed_schema({
     CONF_TYPE_MASTER: cv.All(
         cv.Schema(
-        # we can enforce a lot here, but the dump_config() override will output a warning if any of the other settings are not as expected,
-        # and not enforcing them here leaves the door open to weird BMSes with unusual rates/etc even being possible to specify in the yaml at all
-        #uart.final_validate_device_schema(CONF_PACE_BMS, baud_rate=9600, require_rx=True, require_tx=True, data_bits=8, parity="NONE", stop_bits=1),
-        uart.final_validate_device_schema(CONF_PACE_BMS, require_rx=True, require_tx=True),
+        # uart settings are enforced here (replaces the deprecated C++ check_uart_settings() call, which is removed in ESPHome 2027.3.0)
+        uart.final_validate_device_schema(CONF_PACE_BMS, baud_rate=9600, require_rx=True, require_tx=True, data_bits=8, parity="NONE", stop_bits=1),
         extra=cv.ALLOW_EXTRA,
         ),
         cv.Schema(

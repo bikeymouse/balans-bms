@@ -2044,7 +2044,7 @@ bool PaceBmsProtocolV25::ProcessReadConfigurationResponse(const uint8_t busId, s
 bool PaceBmsProtocolV25::CreateWriteConfigurationRequest(const uint8_t busId, const DischargeOverCurrent2Configuration& config, std::vector<uint8_t>& request)
 {
 	// validate values conform to what PBmsTools would send
-	if (config.ProtectionAmperage < 5 || config.ProtectionAmperage > 255)
+	if (config.ProtectionAmperage < 5)
 	{
 		LogError("ProtectionAmperage is not in the range that PBmsTools would send (or expect back)");
 		return false;
@@ -2317,7 +2317,7 @@ bool PaceBmsProtocolV25::CreateWriteConfigurationRequest(const uint8_t busId, co
 		LogError("FullChargeCurrentMilliamps should be in steps of 500");
 		return false;
 	}
-	if (config.LowChargeAlarmPercent < 0 || config.LowChargeAlarmPercent > 100)
+	if (config.LowChargeAlarmPercent > 100)
 	{
 		LogError("LowChargeAlarmPercent is not in the range that PBmsTools would send (or expect back)");
 		return false;

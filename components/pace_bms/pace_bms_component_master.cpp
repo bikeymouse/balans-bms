@@ -53,18 +53,22 @@ void PaceBmsMaster::dump_config() {
 	ESP_LOGCONFIG(TAG, "pace_bms_master:");
 	ESP_LOGCONFIG(TAG, "  yaml id: %s", this->get_id_name().c_str());
 	ESP_LOGCONFIG(TAG, "  Address: %i", this->address_);
-	if(this->responding_address_.has_value())
+	if(this->responding_address_.has_value()) {
 		ESP_LOGCONFIG(TAG, "  RespondingAddress: %i", this->responding_address_.value());
+	}
 
 	LOG_PIN("  Flow Control Pin: ", this->flow_control_pin_);
 
 	ESP_LOGCONFIG(TAG, "  ProtocolCommandSet: 0x%02X", this->protocol_commandset_);
-	if(this->protocol_variant_.has_value())
+	if(this->protocol_variant_.has_value()) {
 		ESP_LOGCONFIG(TAG, "  ProtocolVariant: %s", this->protocol_variant_.value().c_str());
-	if(this->protocol_version_.has_value())
+	}
+	if(this->protocol_version_.has_value()) {
 		ESP_LOGCONFIG(TAG, "  Protocol Version: 0x%02X", this->protocol_version_.value());
-	if(this->chemistry_.has_value())
+	}
+	if(this->chemistry_.has_value()) {
 		ESP_LOGCONFIG(TAG, "  Chemistry: 0x%02X", this->chemistry_.value());
+	}
 
 	ESP_LOGCONFIG(TAG, "  Request Throttle (ms): %i", this->request_throttle_);
 	ESP_LOGCONFIG(TAG, "  Response Timeout (ms): %i", this->response_timeout_);
@@ -75,8 +79,7 @@ void PaceBmsMaster::dump_config() {
 	ESP_LOGCONFIG(TAG, "  Rx Buffer Size: %i", this->rx_buffer_size_);
 	ESP_LOGCONFIG(TAG, "  Update Interval: %i", this->update_interval_);
 
-	// print an error if the settings do not match
-	this->check_uart_settings(9600, /*require_rx=True, require_tx=True,*/ 1, uart::UART_CONFIG_PARITY_NONE, 8);
+	// uart settings (baud rate, data bits, parity, stop bits) are validated at config time in __init__.py (uart.final_validate_device_schema)
 }
 
 /*
@@ -534,10 +537,10 @@ void PaceBmsMaster::loop() {
 		this->available() == 0) {
 		if (this->raw_data_index_ > 0) {
 			std::string str(this->raw_data_, this->raw_data_ + this->raw_data_index_ + 1);
-			ESP_LOGW(TAG, "Response frame timeout for request %s after %i ms, partial frame: %s", this->last_request_description.c_str(), now - this->last_receive_, str.c_str());
+			ESP_LOGW(TAG, "Response frame timeout for request %s after %" PRIu32 " ms, partial frame: %s", this->last_request_description.c_str(), now - this->last_receive_, str.c_str());
 		}
 		else {
-			ESP_LOGW(TAG, "Response frame timeout for request %s after %i ms, no valid data received", this->last_request_description.c_str(), now - this->last_receive_);
+			ESP_LOGW(TAG, "Response frame timeout for request %s after %" PRIu32 " ms, no valid data received", this->last_request_description.c_str(), now - this->last_receive_);
 		}
 		request_outstanding_ = false;
 		this->raw_data_index_ = 0;
