@@ -75,7 +75,7 @@ uart:
 external_components:
   - source:
       type: git
-      url: https://github.com/www0xx/balans-pace
+      url: https://github.com/bikeymouse/balans-bms
     components: [ pace_bms ]
     refresh: 1s
 
