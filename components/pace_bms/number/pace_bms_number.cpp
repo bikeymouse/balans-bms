@@ -476,7 +476,13 @@ void PaceBmsNumber::setup() {
 					return;
 				}
 				ESP_LOGD(TAG, "Setting discharge_over_current2_protection user selected value %f", value);
-				this->discharge_over_current2_configuration_.ProtectionAmperage = std::lround(value);
+				// ProtectionAmperage is a uint8_t, so validate before narrowing (a larger value would silently wrap around)
+				const long amperage = std::lround(value);
+				if (amperage < 5 || amperage > 255) {
+					ESP_LOGE(TAG, "discharge_over_current2_protection value %f is outside the supported range of 5-255 A", value);
+					return;
+				}
+				this->discharge_over_current2_configuration_.ProtectionAmperage = static_cast<uint8_t>(amperage);
 				this->parent_->write_discharge_over_current2_configuration_v25(this->discharge_over_current2_configuration_);
 			});
 		}
