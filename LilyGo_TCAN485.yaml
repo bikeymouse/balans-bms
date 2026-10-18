@@ -1,5 +1,5 @@
 esphome:
-  name: balans_bms
+  name: balans-bms
   friendly_name: Balans BMS
   min_version: 2026.4.0
   name_add_mac_suffix: false
