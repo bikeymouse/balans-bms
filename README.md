@@ -22,7 +22,7 @@ https://www.tinytronics.n...pment-board-can-bus-rs485
 
 ## Stap 2: De configuratie downloaden en klaarzetten
 1. Ga naar de GitHub-pagina van het project en download het bestand `LilyGo_TCAN485.yaml`:
-https://github.com/www0xx.../main/LilyGo_TCAN485.yaml
+https://github.com/bikeymouse/balans-bms/blob/main/LilyGo_TCAN485.yaml
 
 2. Ga in Home Assistant naar ESPHome Builder en klik rechtsboven op Secrets.
 
@@ -59,7 +59,7 @@ Tip: tijdens het flashen zie je een gekleurde LED branden. Nadat het flashen kla
 2. Ga in Home Assistant naar Instellingen --> Dashboards en maak een nieuw dashboard aan. Kies voor Leeg nieuw dashboard.
 3. Ga naar het zojuist aangemaakte lege dashboard. Klik rechtsboven op het potloodje, daarna op de drie puntjes en kies Ruwe configuratie-editor.
 4. Plak hierin de inhoud van dit bestand en sla het dashboard op:
-https://github.com/www0xx/balans-pace/blob/main/LilyGo_TCAN485.yaml
+https://github.com/bikeymouse/balans-bms/blob/main/HA%20dashboard.yaml
 
 ## Stap 5: LilyGO aansluiten op de ‘Master’-accu
 1. Pak een ethernetkabel en knip aan één kant de stekker eraf.
@@ -79,7 +79,7 @@ Plug de kabel direct naast de al aangesloten gele ethernetkabel in:
 
 5. Voorzie de LilyGO nu van stroom via de USB-C-poort. Na een paar seconden zou de LilyGO verbinding moeten maken met je wifi-netwerk.
 
-De data zou nu binnen moeten komen op zowel de interne webserver van de LilyGO als in het dashboard dat je zojuist hebt aangemaakt. De interne webserver is bereikbaar via http://pace_bms.local/
+De data zou nu binnen moeten komen op zowel de interne webserver van de LilyGO als in het dashboard dat je zojuist hebt aangemaakt. De interne webserver is bereikbaar via http://balans-bms.local/
 
 # Troubleshooting
 
