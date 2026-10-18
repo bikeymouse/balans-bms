@@ -471,11 +471,13 @@ const std::string PaceBmsProtocolV25::DecodeStatusValue(const uint8_t val)
 		str.append("Reverse Indicate; ");
 	}
 	// Discharging: only when the explicit DischargingBit is set
-	// Charging: only when ChargeMosfetOn but DischargeMosfetOff (both MOSFETs on = idle standby)
-	// Idle: both MOSFETs on but no explicit Discharging bit -> show nothing
+	// Charging: only when the explicit ChargingBit is set. This firmware does not seem to set it;
+	//   charging is detected from FF_HeaterBit in ProcessReadStatusInformationResponse instead.
+	//   "CFET on + DFET off" is deliberately NOT treated as charging: that combination also occurs
+	//   when discharging is blocked by a protection, while no current flows.
+	// Idle / MOSFET off: added in ProcessReadStatusInformationResponse
 	bool isDischarging = (val & SF_DischargingBit) != 0;
-	bool isCharging    = (val & SF_ChargingBit) != 0 || 
-	                     ((val & SF_ChargeMosfetOnBit) != 0 && (val & SF_DischargeMosfetOnBit) == 0);
+	bool isCharging    = (val & SF_ChargingBit) != 0;
 
 	if (isDischarging)
 	{
@@ -884,13 +886,38 @@ bool PaceBmsProtocolV25::ProcessReadStatusInformationResponse(const uint8_t busI
 		// FF_HeaterBit in faultState indicates charging active on this BMS firmware.
 		// Require both HeaterBit AND ChargeMosfetOnBit (CFET on) to avoid false positives
 		// on idle BMS units that have HeaterBit set but CFET off (sys=0x04 = DFET only).
-		bool alreadyShowingDischarging = (statusInformation.systemText.find("Discharging") != std::string::npos);
-		if (!alreadyShowingDischarging && (systemState & SF_DischargingBit) == 0)
+		bool showingDischarging = (systemState & SF_DischargingBit) != 0;
+		bool showingCharging    = !showingDischarging && (systemState & SF_ChargingBit) != 0;
+		if (!showingDischarging && !showingCharging)
 		{
 			bool heaterBitCharging = (faultState & FF_HeaterBit) != 0 && (systemState & SF_ChargeMosfetOnBit) != 0;
 			if (heaterBitCharging)
 			{
 				statusInformation.systemText.append("Charging; ");
+				showingCharging = true;
+			}
+		}
+
+		// Neither charging nor discharging: report Idle when both MOSFETs are on,
+		// otherwise report which MOSFET is off (e.g. switched off by a protection)
+		if (!showingDischarging && !showingCharging)
+		{
+			bool chargeMosfetOn    = (systemState & SF_ChargeMosfetOnBit) != 0;
+			bool dischargeMosfetOn = (systemState & SF_DischargeMosfetOnBit) != 0;
+			if (chargeMosfetOn && dischargeMosfetOn)
+			{
+				statusInformation.systemText.append("Idle; ");
+			}
+			else
+			{
+				if (!chargeMosfetOn)
+				{
+					statusInformation.systemText.append("Charge MOSFET Off; ");
+				}
+				if (!dischargeMosfetOn)
+				{
+					statusInformation.systemText.append("Discharge MOSFET Off; ");
+				}
 			}
 		}
 

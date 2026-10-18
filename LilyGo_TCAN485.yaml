@@ -340,16 +340,6 @@ text_sensor:
       name: "BMS1 Fault Status"
     system_status:
       name: "BMS1 System Status"
-      filters:
-        - lambda: |
-            std::string out = x;
-            for (auto& token : {"DFET On; ", "CFET On; ", "DFET On", "CFET On"}) {
-              auto pos = out.find(token);
-              if (pos != std::string::npos) out.erase(pos, strlen(token));
-            }
-            while (out.size() >= 2 && out.substr(out.size()-2) == "; ")
-              out.erase(out.size()-2);
-            return out;
     balancing_status:
       name: "BMS1 Balancing Status"
     configuration_status:
@@ -367,16 +357,6 @@ text_sensor:
       name: "BMS2 Fault Status"
     system_status:
       name: "BMS2 System Status"
-      filters:
-        - lambda: |
-            std::string out = x;
-            for (auto& token : {"DFET On; ", "CFET On; ", "DFET On", "CFET On"}) {
-              auto pos = out.find(token);
-              if (pos != std::string::npos) out.erase(pos, strlen(token));
-            }
-            while (out.size() >= 2 && out.substr(out.size()-2) == "; ")
-              out.erase(out.size()-2);
-            return out;
     balancing_status:
       name: "BMS2 Balancing Status"
     configuration_status:
@@ -394,16 +374,6 @@ text_sensor:
       name: "BMS3 Fault Status"
     system_status:
       name: "BMS3 System Status"
-      filters:
-        - lambda: |
-            std::string out = x;
-            for (auto& token : {"DFET On; ", "CFET On; ", "DFET On", "CFET On"}) {
-              auto pos = out.find(token);
-              if (pos != std::string::npos) out.erase(pos, strlen(token));
-            }
-            while (out.size() >= 2 && out.substr(out.size()-2) == "; ")
-              out.erase(out.size()-2);
-            return out;
     balancing_status:
       name: "BMS3 Balancing Status"
     configuration_status:
