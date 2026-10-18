@@ -32,8 +32,7 @@ https://github.com/bikeymouse/balans-bms/blob/main/LilyGo_TCAN485.yaml
 ```
 wifi_ssid: "JOUW_WIFI"
 wifi_password: "JOUW_WIFI_WACHTWOORD"
-api_encryption_key: "32-byte Base64-sleutel"
-ota_password: "VERZIN_IETS_LEUKS"
+bms_api_encryption_key: "32-byte Base64-sleutel"
 ```
 
 Je kunt een willekeurige 32-byte Base64-sleutel genereren met het commando:
