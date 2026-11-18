@@ -383,7 +383,10 @@ text_sensor:
     name: "BMS1 Balancing Cells"
     update_interval: 5s
     lambda: |-
-      uint16_t bal = (uint16_t) id(bms1_balance_raw).state;
+      float raw = id(bms1_balance_raw).state;
+      // NaN (no reading) and 0xFFFF (all bits set, what a failed read gives) are not a real balancing state
+      if (std::isnan(raw) || raw >= 65535) return {"Balancing: onbekend"};
+      uint16_t bal = (uint16_t) raw;
       if (bal == 0) return {"Balancing: geen"};
       std::string out = "Balancing: cellen ";
       bool first = true;
@@ -400,7 +403,10 @@ text_sensor:
     name: "BMS2 Balancing Cells"
     update_interval: 5s
     lambda: |-
-      uint16_t bal = (uint16_t) id(bms2_balance_raw).state;
+      float raw = id(bms2_balance_raw).state;
+      // NaN (no reading) and 0xFFFF (all bits set, what a failed read gives) are not a real balancing state
+      if (std::isnan(raw) || raw >= 65535) return {"Balancing: onbekend"};
+      uint16_t bal = (uint16_t) raw;
       if (bal == 0) return {"Balancing: geen"};
       std::string out = "Balancing: cellen ";
       bool first = true;
@@ -417,7 +423,10 @@ text_sensor:
     name: "BMS3 Balancing Cells"
     update_interval: 5s
     lambda: |-
-      uint16_t bal = (uint16_t) id(bms3_balance_raw).state;
+      float raw = id(bms3_balance_raw).state;
+      // NaN (no reading) and 0xFFFF (all bits set, what a failed read gives) are not a real balancing state
+      if (std::isnan(raw) || raw >= 65535) return {"Balancing: onbekend"};
+      uint16_t bal = (uint16_t) raw;
       if (bal == 0) return {"Balancing: geen"};
       std::string out = "Balancing: cellen ";
       bool first = true;
