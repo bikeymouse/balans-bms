@@ -980,11 +980,7 @@ bool PaceBmsProtocolV25::ProcessReadStatusInformationResponse(const uint8_t busI
 			statusInformation.warningText.pop_back();
 			statusInformation.warningText.pop_back();
 		}
-		if (statusInformation.balancingText.length() > 2)
-		{
-			statusInformation.balancingText.pop_back();
-			statusInformation.balancingText.pop_back();
-		}
+		// balancingText is a "cells 1,2,3" list without a trailing "; " separator, so nothing to pop off
 		if (statusInformation.systemText.length() > 2)
 		{
 			statusInformation.systemText.pop_back();
